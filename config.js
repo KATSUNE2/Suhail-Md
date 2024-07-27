@@ -129,6 +129,41 @@ let file = require.resolve(__filename)
 fs.watchFile(file, () => { fs.unwatchFile(file);console.log(`Update'${__filename}'`);delete require.cache[file];	require(file); })
 
 
+name: Suhail-MD
+
+on: 
+  push:
+    branches: 
+      - main
+  schedule:
+    - cron: '*/15 * * * *'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Run the bot
+        "scripts": {
+            "run": "pm2 start . --deep-monitoring --attach --name Suhail || node .",
+            "suhail": "pm2 start . --deep-monitoring --attach --name Suhail || node .",
+            "start": "pm2 start . --attach --name Suhail",
+            "stop": "pm2 stop Suhail",
+            "old-heroku-postbuild": "git clone https://github.com/SuhailTechInfo/Suhail-Md.git temp && mv temp/.git .git && rm -rf temp && npx puppeteer@latest install  --y",
+            "fis-heroku-postbuild": "git clone https://github.com/SuhailTechInfo/Suhail-Md.git temp1 && rsync -av temp1/* ./ && rsync -av temp1/.* ./ && rm -rf temp1 && npm i && npx puppeteer@latest install",
+            "dbs--postinstall": "npx puppeteer@latest install --y"
+
+
 
 // ========================= [ Disables in V.1.2.8 ] ===============================\\  
   //style : process.env.STYLE || "2",  // put '1' & "2" here to check bot styles
